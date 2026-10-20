@@ -12,6 +12,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 - Keep the implementation suitable for a beginner course: use straightforward JavaScript, React components, and standard Next.js App Router conventions.
 - Use Git author name `Naznin Akthery` and email `miniahosan@gmail.com` for this repository.
+- Authenticate GitHub HTTPS as `NazninAkthery`; do not use another saved GitHub account.
 - Use the HTTPS remote `https://github.com/NazninAkthery/bazar-dor.git` when pushing.
 - Never commit environment secrets, local authentication databases, or test accounts.
 - The original assignment is preserved in `ASSIGNMENT.md`; the original Figma and Penpot files are design references.
+

@@ -5,7 +5,7 @@ A Bengali market-price website built for the Programming Hero beginner course. C
 ## Links
 
 - Repository: [NazninAkthery/bazar-dor](https://github.com/NazninAkthery/bazar-dor)
-- Live website: deployment pending (see setup below)
+- Live website: [bazar-dor-two-swart.vercel.app](https://bazar-dor-two-swart.vercel.app)
 - Original assignment: [ASSIGNMENT.md](./ASSIGNMENT.md)
 
 ## Features
