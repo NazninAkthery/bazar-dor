@@ -1,202 +1,98 @@
-# 💪 B14-A7-Bazar Dor
+# বাজার দর · BazarDor
 
----
+A Bengali market-price website built for the Programming Hero beginner course. Compare everyday grocery prices, see today's biggest price changes, and check prices across markets in Bangladesh.
 
-## 📅 Deadline For 60 marks: 10 October | ⏱️11:59PM
-## 📅 Deadline For 50 marks: 11 October | ⏱️11:59PM
-## 📅 Deadline for 30 marks: Any time after 11 October 2026
+## Links
 
----
-# API's
-## Main_API_URL: https://openapi.programming-hero.com/api/bazardor
-## BASE_URL_1: https://api.api-store.workers.dev/api/bazardor
-## BASE_URL_2: https://api.abcz.workers.dev/api/bazardor (alternative)
+- Repository: [NazninAkthery/bazar-dor](https://github.com/NazninAkthery/bazar-dor)
+- Live website: deployment pending (see setup below)
+- Original assignment: [ASSIGNMENT.md](./ASSIGNMENT.md)
 
-Endpoints:  
-**All Products:**
-```
-/products
-```
+## Features
 
-**Filter:**
-```
-/products?category=chal
-```    
-**Single Product:**
-```
-/products/1
-```
+- Responsive Bengali interface based on the supplied Figma/Penpot design, with the original logo and banner image.
+- Home page with six biggest price increases, six biggest decreases, and all products.
+- Eight category pages with numeric sorting from lowest to highest price or highest to lowest.
+- Live scrolling price ticker, Bengali numbers, and correct product units.
+- Protected product pages with minimum, maximum, average, and individual market prices.
+- BetterAuth email/password registration and login, plus Google and GitHub OAuth integration.
+- Profile page and a separate form for updating the user's name.
+- Loading skeletons, authentication toasts, error recovery, and friendly unknown-route pages.
 
-**Categories:**
-```
-/categories
-```    
+## Technologies
 
-**Single Category:**
-```
-/categories/chal
+Next.js App Router, React, JavaScript, Tailwind CSS, DaisyUI, BetterAuth, React Hot Toast, SQLite for local development, and PostgreSQL for deployment.
+
+The code uses regular components, forms, arrays, and fetch calls. No extra state management or complex architecture is needed.
+
+## Run locally
+
+Use Node.js 22.13 or newer.
+
+```bash
+npm install
+npm run setup
+npm run dev
 ```
 
----
+Open [localhost:3000](http://localhost:3000).
 
-## 🐣 Basic Requirements (Must Do for Everyone)
-- Your app must work on all screen sizes — mobile, tablet, and desktop
-- Make at least 8 Git commits with clear, meaningful messages
-- Your app must run without any errors after deployment
-- Add a nice README.md file with your project name, description, technologies used, and features(minimum 5)
+`npm run setup` creates an ignored `.env.local` with a random authentication secret and creates the local SQLite authentication tables. It never overwrites an existing environment file. Local email/password login works without an external database account.
 
----
+Register at `/signup`, then sign in at `/signin`. Passwords need at least eight characters. Email verification and password reset are intentionally omitted as requested by the assignment.
 
-# 🔧 Main Requirements — 50 Marks
+## Environment variables
 
+Use `.env.example` as a guide. Keep real credentials in `.env.local` or your hosting dashboard; never commit them.
 
-### 1. 🔝 Navbar
+| Variable                                    | Purpose                                                            |
+| ------------------------------------------- | ------------------------------------------------------------------ |
+| `BETTER_AUTH_URL`                           | Website origin; `http://localhost:3000` locally                    |
+| `BETTER_AUTH_SECRET`                        | Random secret of at least 32 characters                            |
+| `DATABASE_URL`                              | PostgreSQL connection string for deployment; omit for local SQLite |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google OAuth credentials                                           |
+| `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` | GitHub OAuth credentials                                           |
 
-- Design the Navbar exactly like the Figma.
-- Put your logo on the left side: `🛒 বাজার দর` + Bangla date underneath.
-- Put your navigation links in a second row / middle — category links.
-- The active category link should look different (highlighted).
-- **Right-side auth buttons**: `সাইন ইন` + `সাইন আপ`. When logged in, show profile / sign-out instead.
-- **Price ticker (marquee) below navbar**: infinite scrolling strip showing `emoji + name + দাম টাকা/একক + ▲/▼ %` 
+Google and GitHub buttons require their respective provider credentials. Create OAuth applications and allow these callbacks, replacing the origin with your deployed URL:
 
----
+```text
+http://localhost:3000/api/auth/callback/google
+http://localhost:3000/api/auth/callback/github
+```
 
-### 2. 🅱️ Hero / Banner
+## Deploy to Vercel
 
-- Eyebrow / small text
-- Main heading
-- Subtitle
-- A primary **CTA button**
-  - It scrolls the user down to the `#সব-পণ্য` section on the same page (an anchor link, not a route change).
-- A **banner/hero image** on the right side..
+1. Import this GitHub repository into Vercel using the Next.js preset.
+2. Connect a persistent PostgreSQL database and set `DATABASE_URL`.
+3. Set `BETTER_AUTH_URL` to the final HTTPS origin, and set a new random `BETTER_AUTH_SECRET`.
+4. Configure the OAuth credentials and deployed callback URLs above.
+5. Run `npm run setup` from a trusted local environment with `.env.local` pointing at that PostgreSQL database to create the auth tables. Keep the database connection string private.
+6. Deploy using the default `npm run build` command. Update the live link above after a successful deployment.
 
+SQLite is for local use. Do not use a local SQLite file for Vercel's temporary server filesystem. App Router handles direct visits and refreshes on category, product, and profile routes.
 
----
+## Checks
 
-### 3. ⚖️ The Product Sections (Home Page)
+```bash
+npm run build
+npm run test:smoke
+npm run format:check
+```
 
-- **Section A — “আজ দাম বেড়েছে ▲”**: Top 6 risers. 
-- **Section B — “আজ দাম কমেছে ▼”**: Top 6 fallers. 
-- **Section C — “সব পণ্য” with subtitle** .
-- Display all products from JSON data as cards in a **responsive grid** (3-4 cols on large screens, collapses on mobile). Must be responsive.
-- Each card must show:
-  - 📷 Emoji / illustration (e.g. `🍚 🫘 🫙 🥔 🧅 🌶️ 🐟 🍗 🥚 🫚 🧄`)
-  - 📛 Product name (e.g. “স্বর্ণমাছি চাল”, “মিনিকেট চাল”, “ইলিশ মাছ”, “পেঁয়াজ”)
-  - 🖇️ Unit line (e.g. `প্রতি কেজি`, `প্রতি লিটার`, `প্রতি ডজন`, `প্রতি পিস`)
-  - 🔴 Price row: label `আজকের দাম` + value (e.g. `১৪৮ টাকা`, `১,৮৫০ টাকা` — Bengali digits) + change badge `▲ ২.১% / ▼ ২.৯% / —০.০%` (green up, red down, gray flat)
-- 🧭 Clicking a card navigates the user to that product’s **Detail Page**.
+Run the smoke check while the local dev server is running and the local auth database has been set up. It creates a test account in that development database and checks public routes, unknown routes, protected redirects, registration, invalid login, successful login, profile updates, product details, and logout. Do not run this development check against a production database.
 
----
+## Product data
 
-### 4. Product Details Page — Layout (`/product/[slug]`)
+Products come from the assignment's [Programming Hero API](https://openapi.programming-hero.com/api/bazardor/products). The two alternative API hosts in the assignment are tried if the main host fails. Product data is cached for five minutes; the site displays an error and retry button when all hosts are unavailable. Prices are indicative and can vary between markets.
 
-**Protected route — requires login.**
+## Project structure
 
-**Top — Summary:**
-- Emoji + Title
-- Subtitle/description (market summary line)
-- Category tags (e.g. `সবজি`, `চাল`)
-- Unit (`প্রতি কেজি / লিটার / ডজন / পিস`)
+```text
+app/          Pages, route handlers, loading and error states
+components/   Header, ticker, product cards, forms
+lib/          Product API and authentication configuration
+public/       Supplied logo and hero image
+scripts/      Local setup and smoke check
+```
 
-
-**Price - Summary** 
-- Minimum Price
-- Maximum Price 
-- Average Price 
-
-
-**বাজারভিত্তিক আজকের দাম** 
-- Show all the data like figma based on different Bazar. You can do this section Design like figma or as you want. 
-
-
-### 5. Category Page
-- Title + icon 
-- **Sort control**: `সাজান: ডিফল্ট | দাম: কম থেকে বেশি | দাম: বেশি থেকে কম` (see C1).
-- **Loading state**: show skeleton / “Loading…” while fetching before the list renders.
-- **Product cards list**: same card design as Home (thumbnail emoji, title e.g. “আলু”, “পেঁয়াজ”, “ঢেঁড়স”, unit e.g. “প্রতি কেজি”, price + change badge).
-- **Empty state** (when category has no items / invalid slug): 404-style message + CTA button **“হোম পেজে ফিরে যান”** (links back to `/`).
-
-
-### 6. Authentication (`/signin`, `/signup`)
-
-- **Sign In**: User Login: The user will  show  a Login page with a form , so that the user can Log in this application. 
-    - Show a Title for Login.  & Form with following fields ( Email , Password , Login button ) 
-    - If the user Login successfully then navigate him to his Home page. If not, show him an error with toast / error message anywhere in the form.
-
-    - There will be some other options like:
-        - Show the user a Link for Register  so that he can go to the register page. 
-        - Show users a Social Login Button ( Google/GitHub/any other social login ) . on Clicking it user authenticate with Google Navigate him to  his Home page.
-- **Sign Up**: User Registration: Create a register page with a form , so that the user can register himself in this application. 
-    - Show a Title for registration and a Form with following fields( Name , Email, Password & Register Button ) 
-    - If the user Register successfully then navigate him to his login page.
-    - If not, show him an error with toast / error message anywhere in the form.
-
-
-    - There will be some other options like 
-        - Show the user a Link for Login so that he can go to the Login page. 
-        - Show users a Social Login Button ( Google/GitHub/any other social login ) . on Clicking it user authenticate with Google Navigate the user to the Home page.
-
-- Use **BetterAuth** (email/password + Google + GitHub), toast on success/error, skeleton loaders.
-- Show relevant **toast notification** on login / signup / logout / validation error.
--  💡Don’t implement email verification or forget password method as it will inconvenience the examiner. If you want, you can add these after receiving the assignment result.
-
---- 
-
-### 7. Footer
-- Match the Figma.
-- **Left**: `বাজার দর — প্রয়োজনীয় পণ্যের দাম এক নজরে।`
-- **Right**: *“সকল দাম সম্ভাব্য; বাজার অবস্থার ওপর নির্ভর করে পরিবর্তিত হয়।”*
-
-### 8. Responsive Design
-- The entire website must work correctly on mobile, tablet, and desktop screen sizes (grid collapses correctly, navbar + ticker stays usable, hero stacks, `btn-sm sm:btn-md`, `max-w-6xl` container, etc.).
-
----
-
-#	Requirement
-- Add a 404 Page for any unknown/invalid route (e.g. `/category/invalid`, `/product/unknown` → friendly  404 + “হোম পেজে ফিরে যান”)
-- Show a loading animation ( `skeleton`) while the product data is being fetched on the Home / Category page
-- Show a relevant toast notification for auth + protected-route redirects (use `react-hot-toast` / `data-rht-toaster`).
-- Make sure reloading any page after deployment does not cause an error (dynamic `[slug]` routes must work on Vercel — no hard 404 on refresh)
-
----
-
-# Challenge Requirements — 10 Marks
-
-### C1. - **Sort dropdown**:
-“সাজান” → options `ডিফল্ট`, `দাম: কম থেকে বেশি`, `দাম: বেশি থেকে কম` (default `ডিফল্ট`, with chevron icon). Must handle Bengali numerals correctly (sort by numeric value, not string).
-
-### C2. GitHub README
-- Add a well-designed `README.md` that includes:
-  - Project name (বাজার দর / BazarDor)
-  - Short description
-  - Technologies used
-  - 5 key features of the project
-
-### C3. - Update Information Feature
-- In My Profile route there will be an update button. On clicking it,  Take user to another route 
-- Show user a form with an input field (  Name ), An Update Information button.
-
-Follow this documentation: https://better-auth.com/docs/concepts/users-accounts#update-user 
-
-
----
-
-### 🛠️ Technologies to Use
-Technology	Purpose
-- Next.js ->	Build the UI
-- App router(Next.js) +	Handle page navigation
-- Tailwind CSS + Any component library	Styling and responsiveness(DaisyUI, Hero UI)
-- TypeScript / JavaScript
-- BetterAuth
-
-### 🚀 Deployment
-Deploy your project on Vercel, Netlify, Cloudflare Pages, or anywhere else before submitting.
-
-## 📬 Submission
-Fill in both links before submitting:
-
-- Live Link:
-- GitHub Repository Link:
-
-
-### Notes : You can use Bengali or English language for core website information or any kind of text.
+Author: **Naznin Akthery** · miniahosan@gmail.com

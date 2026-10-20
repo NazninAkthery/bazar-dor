@@ -6,5 +6,11 @@ export default async function CategoryPage({ params }) {
   const products = await getProducts();
   const category = getCategories(products).find((c) => c.slug === slug);
   if (!category) notFound();
-  return <ProductList title={`${category.icon} ${category.name}`} subtitle="এই বিভাগের আজকের বাজারদর" products={products.filter((p) => p.category === slug)} />;
+  return (
+    <ProductList
+      title={`${category.icon} ${category.name}`}
+      subtitle="এই বিভাগের আজকের বাজারদর"
+      products={products.filter((p) => p.category === slug)}
+    />
+  );
 }
