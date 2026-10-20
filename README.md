@@ -66,8 +66,8 @@ http://localhost:3000/api/auth/callback/github
 2. Connect a persistent PostgreSQL database and set `DATABASE_URL`.
 3. Set `BETTER_AUTH_URL` to the final HTTPS origin, and set a new random `BETTER_AUTH_SECRET`.
 4. Configure the OAuth credentials and deployed callback URLs above.
-5. Run `npm run setup` from a trusted local environment with `.env.local` pointing at that PostgreSQL database to create the auth tables. Keep the database connection string private.
-6. Deploy using the default `npm run build` command. Update the live link above after a successful deployment.
+5. Deploy using the default `npm run build` command. Its `prebuild` step creates any missing BetterAuth tables using the database credentials already available inside Vercel. It does not need to download those credentials to your computer.
+6. Verify registration, sign-in, protected product details, and profile updates on the deployed website.
 
 SQLite is for local use. Do not use a local SQLite file for Vercel's temporary server filesystem. App Router handles direct visits and refreshes on category, product, and profile routes.
 
