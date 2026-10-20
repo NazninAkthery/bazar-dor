@@ -12,7 +12,7 @@ export default function ProductList({
   if (sort === "low") sorted.sort((a, b) => a.today - b.today);
   if (sort === "high") sorted.sort((a, b) => b.today - a.today);
   return (
-    <section id="সব-পণ্য">
+    <section id={title === "সব পণ্য" ? "সব-পণ্য" : undefined}>
       <div className="section-heading">
         <div>
           <h2>{title}</h2>

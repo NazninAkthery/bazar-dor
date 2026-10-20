@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import toast from "react-hot-toast";
@@ -16,6 +16,7 @@ const categories = [
   ["mosla", "🌶️", "মসলা"],
 ];
 export default function Header() {
+  const router = useRouter();
   const path = usePathname();
   const { data: session } = authClient.useSession();
   const [date, setDate] = useState("");
@@ -33,7 +34,8 @@ export default function Header() {
     const result = await authClient.signOut();
     if (result.error) return toast.error(result.error.message);
     toast.success("সাইন আউট সফল হয়েছে");
-    window.location.assign("/");
+    router.push("/");
+    router.refresh();
   }
   return (
     <header>

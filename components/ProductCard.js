@@ -4,7 +4,11 @@ export function ChangeBadge({ change }) {
   return (
     <span className={`change ${change.dir}`}>
       {change.dir === "up" ? "▲" : change.dir === "down" ? "▼" : "—"}{" "}
-      {bn(Math.abs(change.pct))}%
+      {Math.abs(change.pct).toLocaleString("bn-BD", {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1,
+      })}
+      %
     </span>
   );
 }

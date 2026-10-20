@@ -1,9 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import toast from "react-hot-toast";
 export default function ProfileForm() {
+  const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
   const [pending, setPending] = useState(false);
   useEffect(() => {
@@ -24,7 +26,8 @@ export default function ProfileForm() {
       const result = await authClient.updateUser({ name });
       if (result.error) throw new Error(result.error.message);
       toast.success("তথ্য আপডেট হয়েছে");
-      window.location.assign("/profile");
+      router.push("/profile");
+      router.refresh();
     } catch (err) {
       toast.error(err.message);
     } finally {

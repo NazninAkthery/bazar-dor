@@ -1,9 +1,11 @@
 "use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import toast from "react-hot-toast";
 export default function AuthForm({ signup = false }) {
+  const router = useRouter();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
   useEffect(() => {
@@ -24,6 +26,8 @@ export default function AuthForm({ signup = false }) {
         email: form.get("email").trim(),
         password: form.get("password"),
       };
+      if (signup && !form.get("name").trim())
+        throw new Error("আপনার নাম লিখুন");
       const result = signup
         ? await authClient.signUp.email({
             ...values,
@@ -35,7 +39,8 @@ export default function AuthForm({ signup = false }) {
       toast.success(
         signup ? "অ্যাকাউন্ট তৈরি হয়েছে। সাইন ইন করুন।" : "সাইন ইন সফল হয়েছে",
       );
-      window.location.assign(signup ? "/signin?registered=1" : destination());
+      router.push(signup ? "/signin" : destination());
+      router.refresh();
     } catch (err) {
       setError(err.message);
       toast.error(err.message);
@@ -69,7 +74,12 @@ export default function AuthForm({ signup = false }) {
             : "আপনার অ্যাকাউন্টে আবারও স্বাগতম"}
         </p>
       </div>
-      <form onSubmit={submit}>
+      <form
+        onSubmit={submit}
+        onInvalid={(event) =>
+          toast.error(event.target.validationMessage, { id: "validation" })
+        }
+      >
         {signup && (
           <label>
             আপনার নাম
