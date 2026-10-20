@@ -95,4 +95,4 @@ public/       Supplied logo and hero image
 scripts/      Local setup and smoke check
 ```
 
-Author: **Naznin Akthery** · miniahosan@gmail.com
+Author: **Naznin Akthery**

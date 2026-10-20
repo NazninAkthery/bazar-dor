@@ -34,8 +34,8 @@ export default function PrivacyPage() {
       <h2>Your choices</h2>
       <p>
         You can update your name on your profile page and sign out at any time.
-        To request deletion of your account and its associated data, contact
-        <a href="mailto:miniahosan@gmail.com"> miniahosan@gmail.com</a>.
+        For privacy or account-data enquiries, see the project maintainer's
+        <a href="https://github.com/NazninAkthery"> GitHub profile</a>.
       </p>
       <Link className="back-link" href="/">
         ← হোম পেজে ফিরে যান
