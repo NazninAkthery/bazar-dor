@@ -20,6 +20,18 @@ export default function Header() {
   const path = usePathname();
   const { data: session } = authClient.useSession();
   const [date, setDate] = useState("");
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("auth") === "success") {
+      toast.success("সাইন ইন সফল হয়েছে", { id: "social-success" });
+      url.searchParams.delete("auth");
+      window.history.replaceState(
+        null,
+        "",
+        url.pathname + url.search + url.hash,
+      );
+    }
+  }, []);
   useEffect(
     () =>
       setDate(

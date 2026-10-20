@@ -9,7 +9,12 @@ export default function AuthForm({ signup = false }) {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
   useEffect(() => {
-    if (new URLSearchParams(window.location.search).has("protected"))
+    const query = new URLSearchParams(window.location.search);
+    if (query.get("auth") === "error")
+      toast.error("সাইন ইন সম্পন্ন হয়নি। আবার চেষ্টা করুন।", {
+        id: "social-error",
+      });
+    if (query.has("protected"))
       toast.error("বিস্তারিত দেখতে আগে সাইন ইন করুন", { id: "protected" });
   }, []);
   function destination() {
@@ -53,7 +58,8 @@ export default function AuthForm({ signup = false }) {
     try {
       const result = await authClient.signIn.social({
         provider,
-        callbackURL: destination(),
+        callbackURL: "/?auth=success",
+        errorCallbackURL: "/signin?auth=error",
       });
       if (result.error) throw new Error(result.error.message);
     } catch (err) {
