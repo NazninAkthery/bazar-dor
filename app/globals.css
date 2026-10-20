@@ -403,6 +403,15 @@ form label {
 .back-link {
   color: var(--green);
 }
+.privacy-policy h2 {
+  margin-top: 24px;
+}
+.privacy-policy p {
+  margin-top: 8px;
+}
+.privacy-policy a {
+  color: var(--green);
+}
 .form-error {
   color: #c32929 !important;
 }

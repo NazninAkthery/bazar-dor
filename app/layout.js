@@ -1,4 +1,5 @@
 import "./globals.css";
+import Link from "next/link";
 import Header from "@/components/Header";
 import { Toaster } from "react-hot-toast";
 export const metadata = {
@@ -13,7 +14,10 @@ export default function RootLayout({ children }) {
         <main className="container main-content">{children}</main>
         <footer>
           <div className="container footer-content">
-            <p>বাজার দর — প্রয়োজনীয় পণ্যের দাম এক নজরে।</p>
+            <p>
+              বাজার দর — প্রয়োজনীয় পণ্যের দাম এক নজরে।{" "}
+              <Link href="/privacy">গোপনীয়তা</Link>
+            </p>
             <p>সকল দাম সম্ভাব্য; বাজার অবস্থার ওপর নির্ভর করে পরিবর্তিত হয়।</p>
           </div>
         </footer>
