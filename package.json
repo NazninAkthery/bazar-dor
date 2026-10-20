@@ -1,0 +1,1 @@
+{"name":"bazar-dor","version":"1.0.0","private":true,"scripts":{"dev":"next dev","build":"next build","start":"next start"},"dependencies":{"next":"latest","react":"latest","react-dom":"latest","better-auth":"latest","pg":"latest","react-hot-toast":"latest","tailwindcss":"latest","@tailwindcss/postcss":"latest","daisyui":"latest"}}
