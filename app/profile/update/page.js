@@ -1,4 +1,6 @@
 import ProfileForm from "@/components/ProfileForm";
-export default function UpdateProfile() {
+import { requireSession } from "@/lib/session";
+export default async function UpdateProfile() {
+  await requireSession("/profile/update");
   return <ProfileForm />;
 }

@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { headers } from "next/headers";
-import { notFound, redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
+import { notFound } from "next/navigation";
+import { requireSession } from "@/lib/session";
 import { getProducts, bn, units } from "@/lib/products";
 import { ChangeBadge } from "@/components/ProductCard";
 export default async function ProductPage({ params }) {
@@ -9,11 +8,7 @@ export default async function ProductPage({ params }) {
   const products = await getProducts();
   const product = products.find((p) => p.slug === slug);
   if (!product) notFound();
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session)
-    redirect(
-      `/signin?protected=1&next=${encodeURIComponent(`/product/${slug}`)}`,
-    );
+  await requireSession(`/product/${slug}`);
   const markets = product.markets;
   const min = Math.min(...markets.map((m) => m.min));
   const max = Math.max(...markets.map((m) => m.max));

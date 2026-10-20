@@ -1,10 +1,7 @@
 import Link from "next/link";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
+import { requireSession } from "@/lib/session";
 export default async function Profile() {
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) redirect("/signin?protected=1");
+  const session = await requireSession("/profile");
   return (
     <section className="profile-card card">
       <span className="avatar-circle">{session.user.name.charAt(0)}</span>
